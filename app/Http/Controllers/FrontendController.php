@@ -42,4 +42,9 @@ class FrontendController extends BaseController
             return view('cart' ,compact('data'));
         }
 
+        //product_details page route
+        public function product_details(){
+            return view('product_details');
+        }
+
 }

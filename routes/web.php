@@ -13,11 +13,10 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\UserSellerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\CustomPasswordResetController;
 
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 
 
 
@@ -96,15 +95,22 @@ Route::middleware(['admin'])->group(function () {
     //shipping routes
     Route::resource('shippings', ShippingController::class);
 
- 
-    
-
-    
 });
+//google login and authentication login routes
 Route::get('login/google', [LoginController::class, 'redirectToGoogle'])->name('login.google');
 Route::get('google/callback', [LoginController::class, 'handleGoogleCallback']);
 Route::post('authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+
+//forgetpassword routes
+
+Route::get('password/reset', [CustomPasswordResetController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('password/email', [CustomPasswordResetController::class, 'sendResetLink'])->name('password.email');
+Route::get('password/reset/{token}', [CustomPasswordResetController::class, 'showResetForm'])->name('password.reset');
+Route::post('password/reset', [CustomPasswordResetController::class, 'reset'])->name('password.update');
+
+
+
 
 
 
@@ -120,7 +126,7 @@ Route::get('/trendora', [FrontendController::class, 'front_index'])->name('trend
 Route::get('/trendora/about', [FrontendController::class, 'front_about'])->name('trendora.about');
 Route::get('/trendora/shop', [FrontendController::class, 'front_shop'])->name('trendora.shop');
 Route::get('/trendora/cart/{id}', [FrontendController::class, 'front_cart'])->name('trendora.cart');
-// Route::get('/brand/list', [BrandController::class, 'brandindex'])->name('brand.list');
+Route::get('/trendora/product_details', [FrontendController::class, 'product_details'])->name('trendora.product_details');
 
 
 

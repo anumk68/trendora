@@ -65,13 +65,20 @@
                             </tr>
                         </thead>
                         <tbody>
+
+
                             @if($carts && count($carts) > 0)
                                 @foreach($carts as $cartItem)
+                                @php
+                                $product = $cartItem->product;
+                                $discount = $product->discount ?? 0;
+                                $discountedPrice = $product->price - ($product->price * ($discount / 100));
+                            @endphp
                                     <tr>
                                         <td>{{ $cartItem->product->title }}</td>
-                                        <td>${{ number_format($cartItem->product->price, 2) }}</td>
+                                        <td>${{ number_format($discountedPrice, 2) }}</td>
                                         <td>{{ $cartItem->quantity }}</td>
-                                        <td>${{ number_format($cartItem->product->price * $cartItem->quantity, 2) }}</td>
+                                        <td>${{ number_format($cartItem->amount , 2) }}</td>
                                     </tr>
                                 @endforeach
                             @else
@@ -88,3 +95,4 @@
 </main>
 
 @endsection
+

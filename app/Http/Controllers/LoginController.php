@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Str;
 use App\Providers\RouteServiceProvider;
+
 class LoginController extends Controller
 {
      /**
@@ -100,20 +101,20 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required'
         ]);
-    
+
         if (Auth::attempt($credentials)) {
             if (auth()->user()->role == 'admin' || auth()->user()->role == 'merchant') {
                 return redirect()->route('dashboard')
                     ->withSuccess('You have successfully logged in!');
-            } else {
-                dd($credentials);
-                return back()->withErrors(['email' => 'Your provided credentials do not match in our records.'])->onlyInput('email');
             }
         }
-    
-        
+
+        else {
+
+            return back()->withErrors(['email' => 'Your provided credentials do not match in our records.'])->onlyInput('email');
+        }
     }
-    
+
 
     /**
      * Display a dashboard to authenticated users.
@@ -181,16 +182,16 @@ class LoginController extends Controller
 
     public function redirectToGoogle()
     {
-        
+
         return Socialite::driver('google')->redirect();
     }
 
 
     public function handleGoogleCallback()
     {
-      
+
         $googleUser = Socialite::driver('google')->stateless()->user();
-     
+
         $user = User::where('email', $googleUser->email)->first();
         if(!$user)
         {
