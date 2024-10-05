@@ -1,4 +1,21 @@
 @extends('layouts.app')
+<style>
+    .product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.imageBox {
+        position: relative;
+        overflow: hidden;
+    }
+
+.discount-percentage {
+    color: green;
+    font-weight: bold;
+}
+
+</style>
 @section('content')
 
     <section class="home_banner_tendora">
@@ -66,7 +83,7 @@
                                     <div class="text_position">
                                         <h2>Dress</h2>
                                         <div class="btn_shop">
-                                            <a href="#">Shop Now</a>
+                                            <a href="{{route('trendora.shop')}}">Shop Now</a>
                                         </div>
                                     </div>
                                 </div>
@@ -86,7 +103,7 @@
                                     <div class="text_position">
                                         <h2>Accessories</h2>
                                         <div class="btn_shop">
-                                            <a href="#">Shop Now</a>
+                                            <a href="{{route('trendora.shop')}}">Shop Now</a>
                                         </div>
                                     </div>
                                 </div>
@@ -100,7 +117,7 @@
                                     <div class="text_position">
                                         <h2>Bag & Watches</h2>
                                         <div class="btn_shop">
-                                            <a href="#">Shop Now</a>
+                                            <a href="{{route('trendora.shop')}}">Shop Now</a>
                                         </div>
                                     </div>
                                 </div>
@@ -113,7 +130,7 @@
         </div>
     </section>
 
-    <section class="best_feature_collectio">
+    <section class="best_feature_collectio top_spacing pb-0">
         <div class="container">
             <div class="heading_summer_Collection">
                 <span>Summer Collection</span>
@@ -121,112 +138,43 @@
             </div>
 
             <div class="row justify-content-between">
-                <div class="col-lg-3 col-md-5 col-6">
-                    <div class="under_main_summer">
-                        <div class="summer_insight">
-                            <div class="imageBox">
-                                <div class="box">
-                                    <img class="img1" src="{{ asset('front_assets/img/summer_demo_1.jpg')}}" class="img-fluid" alt="">
-                                    <img class="hover_img" src="{{ asset('front_assets/img/summer_demo_2.jpg')}}" class="img-fluid" alt="">
-                                </div>
-
-                                <div class="icon_main_under">
-                                    <div class="flx_main_icon">
-                                        <i class="fa-solid fa-heart"></i>
-                                        <i class="fa-regular fa-eye"></i>
-                                        <i class="fa-solid fa-bag-shopping"></i>
-                                    </div>
-                                    <span class="onsale"> Sale</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="txt_under_bottom">
-                            <h2>Western Dress With Jacket</h2>
-                            <p>$109.00 <span>$119.00</span></p>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col-lg-3 col-md-5 col-6">
-                    <div class="under_main_summer">
-                        <div class="summer_insight">
-                            <div class="imageBox">
-                                <div class="box">
-                                    <img class="img1" src="{{ asset('front_assets/img/summer_demo_3.jpg')}}" class="img-fluid" alt="">
-                                    <img class="hover_img" src="{{ asset('front_assets/img/summer_demo_33.jpg')}}" class="img-fluid" alt="">
-                                </div>
-
-                                <div class="icon_main_under">
-                                    <div class="flx_main_icon">
-                                        <i class="fa-solid fa-heart"></i>
-                                        <i class="fa-regular fa-eye"></i>
-                                        <i class="fa-solid fa-bag-shopping"></i>
+                @foreach($products->take(4) as $item) <!-- Show only the first 4 products -->
+                    <div class="col-lg-3 col-md-5 col-6 mb-4">
+                        <div class="under_main_summer">
+                            <div class="imageBox position-relative">
+                                <div class="imageBox">
+                                    <div class="box" style="width:100%;">
+                                        <a href="{{ route('trendora.product_details', $item->id) }}">
+                                        <img class="img1" src="{{ asset('storage/' . $item->galleries[0]->photo) }}" alt="" class="product-image" height="200px">
+                                        <img class="hover_img" src="{{ asset('storage/' . $item->galleries[0]->photo) }}" alt="" class="product-image">
+                                        </a>
                                     </div>
 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="txt_under_bottom">
-                            <h2>Women Dot Print Dress</h2>
-                            <p>$129.00</p>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="col-lg-3 col-md-5 col-6">
-                    <div class="under_main_summer">
-                        <div class="summer_insight">
-                            <div class="imageBox">
-                                <div class="box">
-                                    <img class="img1" src="{{ asset('front_assets/img/summer_demo_4.jpg')}}" class="img-fluid" alt="">
-                                    <img class="hover_img" src="{{ asset('front_assets/img/summer_demo_44.jpg')}}" class="img-fluid" alt="">
-                                </div>
-
-                                <div class="icon_main_under">
-                                    <div class="flx_main_icon">
-                                        <i class="fa-solid fa-heart"></i>
-                                        <i class="fa-regular fa-eye"></i>
-                                        <i class="fa-solid fa-bag-shopping"></i>
+                                    <div class="icon_main_under">
+                                        <div class="flx_main_icon">
+                                            <i class="fa-solid fa-heart"></i>
+                                            <i class="fa-regular fa-eye"></i>
+                                            <i class="fa-solid fa-bag-shopping"></i>
+                                        </div>
+                                        @if($item->tags && in_array('sale', explode(',', $item->tags)))
+                                            <span class="onsale">Sale</span>
+                                        @endif
                                     </div>
-
                                 </div>
                             </div>
-                        </div>
-                        <div class="txt_under_bottom">
-                            <h2>Ladies Frock</h2>
-                            <p>$120.00 </p>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="col-lg-3 col-md-5 col-6">
-                    <div class="under_main_summer">
-                        <div class="summer_insight">
-                            <div class="imageBox">
-                                <div class="box">
-                                    <img class="img1" src="{{ asset('front_assets/img/summer_demo_5.jpg')}}" class="img-fluid" alt="">
-                                    <img class="hover_img" src="{{ asset('front_assets/img/summer_demo_55.jpg')}}" class="img-fluid" alt="">
-                                </div>
-
-                                <div class="icon_main_under">
-                                    <div class="flx_main_icon">
-                                        <i class="fa-solid fa-heart"></i>
-                                        <i class="fa-regular fa-eye"></i>
-                                        <i class="fa-solid fa-bag-shopping"></i>
-                                    </div>
-
-                                </div>
+                            <div class="txt_under_bottom">
+                                <h2>{{ $item->name }}</h2>
+                                <p>
+                                    @if($item->discount)
+                                    <p>${{ number_format($item->price - ($item->price * $item->discount / 100), 2) }} <span>${{ number_format($item->price, 2) }}</span></p>
+                                    @else
+                                    <p>${{ number_format($item->price, 2) }}</p>
+                                    @endif
+                                </p>
                             </div>
                         </div>
-                        <div class="txt_under_bottom">
-                            <h2>Full Sleeve Long Dress</h2>
-                            <p>$21.00 – $31.00</p>
-                        </div>
                     </div>
-
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
@@ -245,7 +193,7 @@
                             <p>There are many variations of passages of Lorem Ipsum available majority have suffered
                                 alteration</p>
                             <div class="btn_home_banner">
-                                <a href="#">Shop Now</a>
+                                <a href="{{route('trendora.shop')}}">Shop Now</a>
                             </div>
                         </div>
                     </div>
@@ -261,14 +209,18 @@
                 <h2>Best Featured Collection</h2>
             </div>
 
-            <div class="row justify-content-between">
-                <div class="col-lg-3 col-md-5 col-6 mb-4">
-                    <div class="under_main_summer">
-                        <div class="summer_insight">
-                            <div class="imageBox">
-                                <div class="box">
-                                    <img class="img1" src="{{ asset('front_assets/img/summer_demo_6.jpg')}}" alt="">
-                                    <img class="hover_img" src="{{ asset('front_assets/img/summer_demo_66.jpg')}}" alt="">
+            <div class="row">
+                @foreach($products->take(8) as $item)
+                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                        <div class="under_main_summer">
+                            <div class="imageBox position-relative">
+                                <div class="box" style="width: 100%;">
+                                    <a href="{{ route('trendora.product_details', $item->id) }}"> <!-- Link to product details -->
+                                        <img class="img1" src="{{ asset('storage/' . $item->galleries[0]->photo) }}" alt="" height="200px;">
+                                        @if(isset($item->galleries[1]))
+                                            <img class="hover_img" src="{{ asset('storage/' . $item->galleries[0]->photo) }}" alt="" height="200px;">
+                                        @endif
+                                    </a>
                                 </div>
 
                                 <div class="icon_main_under">
@@ -277,207 +229,34 @@
                                         <i class="fa-regular fa-eye"></i>
                                         <i class="fa-solid fa-bag-shopping"></i>
                                     </div>
-                                    <span class="onsale"> Sale</span>
+                                    @if($item->tags && in_array('sale', explode(',', $item->tags)))
+                                        <span class="onsale">Sale</span>
+                                    @endif
                                 </div>
                             </div>
-                        </div>
-                        <div class="txt_under_bottom">
-                            <h2>Western Dress With Jacket</h2>
-                            <p>$109.00 <span>$119.00</span></p>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col-lg-3 col-md-5 col-6">
-                    <div class="under_main_summer">
-                        <div class="summer_insight">
-                            <div class="imageBox">
-                                <div class="box">
-                                    <img class="img1" src="{{ asset('front_assets/img/summer_demo_7.jpg')}}" alt="">
-                                    <img class="hover_img" src="{{ asset('front_assets/img/summer_demo_77.jpg')}}" alt="">
-                                </div>
-
-                                <div class="icon_main_under">
-                                    <div class="flx_main_icon">
-                                        <i class="fa-solid fa-heart"></i>
-                                        <i class="fa-regular fa-eye"></i>
-                                        <i class="fa-solid fa-bag-shopping"></i>
-                                    </div>
-
-                                </div>
+                            <div class="txt_under_bottom">
+                                <h2>{{ $item->name }}</h2>
+                                <p>
+                                    ${{ number_format($item->price, 2) }}
+                                    @if($item->discount_price)
+                                        <?php
+                                            $discountAmount = ($item->price * $item->discount_price) / 100;
+                                            $finalPrice = $item->price - $discountAmount;
+                                        ?>
+                                        <span>${{ number_format($finalPrice, 2) }}</span>
+                                        <span style="text-decoration: line-through;">${{ number_format($item->price, 2) }}</span>
+                                    @endif
+                                </p>
                             </div>
                         </div>
-                        <div class="txt_under_bottom">
-                            <h2>Women Dot Print Dress</h2>
-                            <p>$129.00</p>
-                        </div>
                     </div>
-
-                </div>
-
-                <div class="col-lg-3 col-md-5 col-6">
-                    <div class="under_main_summer">
-                        <div class="summer_insight">
-                            <div class="imageBox">
-                                <div class="box">
-                                    <img class="img1" src="{{ asset('front_assets/img/summer_demo_8.jpg')}}" alt="">
-                                    <img class="hover_img" src="{{ asset('front_assets/img/summer_demo_88.jpg')}}" alt="">
-                                </div>
-
-                                <div class="icon_main_under">
-                                    <div class="flx_main_icon">
-                                        <i class="fa-solid fa-heart"></i>
-                                        <i class="fa-regular fa-eye"></i>
-                                        <i class="fa-solid fa-bag-shopping"></i>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="txt_under_bottom">
-                            <h2>Ladies Frock</h2>
-                            <p>$120.00 </p>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="col-lg-3 col-md-5 col-6">
-                    <div class="under_main_summer">
-                        <div class="summer_insight">
-                            <div class="imageBox">
-                                <div class="box">
-                                    <img class="img1" src="{{ asset('front_assets/img/summer_demo_9.jpg')}}" alt="">
-                                    <img class="hover_img" src="{{ asset('front_assets/img/summer_demo_99.jpg')}}" alt="">
-                                </div>
-
-                                <div class="icon_main_under">
-                                    <div class="flx_main_icon">
-                                        <i class="fa-solid fa-heart"></i>
-                                        <i class="fa-regular fa-eye"></i>
-                                        <i class="fa-solid fa-bag-shopping"></i>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="txt_under_bottom">
-                            <h2>Full Sleeve Long Dress</h2>
-                            <p>$21.00 – $31.00</p>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="col-lg-3 col-md-5 col-6 mb-4">
-                    <div class="under_main_summer">
-                        <div class="summer_insight">
-                            <div class="imageBox">
-                                <div class="box">
-                                    <img class="img1" src="{{ asset('front_assets/img/summer_demo_6.jpg')}}" alt="">
-                                    <img class="hover_img" src="{{ asset('front_assets/img/summer_demo_66.jpg')}}" alt="">
-                                </div>
-
-                                <div class="icon_main_under">
-                                    <div class="flx_main_icon">
-                                        <i class="fa-solid fa-heart"></i>
-                                        <i class="fa-regular fa-eye"></i>
-                                        <i class="fa-solid fa-bag-shopping"></i>
-                                    </div>
-                                    <span class="onsale"> Sale</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="txt_under_bottom">
-                            <h2>Western Dress With Jacket</h2>
-                            <p>$109.00 <span>$119.00</span></p>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col-lg-3 col-md-5 col-6">
-                    <div class="under_main_summer">
-                        <div class="summer_insight">
-                            <div class="imageBox">
-                                <div class="box">
-                                    <img class="img1" src="{{ asset('front_assets/img/summer_demo_7.jpg')}}" alt="">
-                                    <img class="hover_img" src="{{ asset('front_assets/img/summer_demo_77.jpg')}}" alt="">
-                                </div>
-
-                                <div class="icon_main_under">
-                                    <div class="flx_main_icon">
-                                        <i class="fa-solid fa-heart"></i>
-                                        <i class="fa-regular fa-eye"></i>
-                                        <i class="fa-solid fa-bag-shopping"></i>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="txt_under_bottom">
-                            <h2>Women Dot Print Dress</h2>
-                            <p>$129.00</p>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="col-lg-3 col-md-5 col-6">
-                    <div class="under_main_summer">
-                        <div class="summer_insight">
-                            <div class="imageBox">
-                                <div class="box">
-                                    <img class="img1" src="{{ asset('front_assets/img/summer_demo_8.jpg')}}" alt="">
-                                    <img class="hover_img" src="{{ asset('front_assets/img/summer_demo_88.jpg')}}" alt="">
-                                </div>
-
-                                <div class="icon_main_under">
-                                    <div class="flx_main_icon">
-                                        <i class="fa-solid fa-heart"></i>
-                                        <i class="fa-regular fa-eye"></i>
-                                        <i class="fa-solid fa-bag-shopping"></i>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="txt_under_bottom">
-                            <h2>Ladies Frock</h2>
-                            <p>$120.00 </p>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="col-lg-3 col-md-5 col-6">
-                    <div class="under_main_summer">
-                        <div class="summer_insight">
-                            <div class="imageBox">
-                                <div class="box">
-                                    <img class="img1" src="{{ asset('front_assets/img/summer_demo_9.jpg')}}" alt="">
-                                    <img class="hover_img" src="{{ asset('front_assets/img/summer_demo_99.jpg')}}" alt="">
-                                </div>
-
-                                <div class="icon_main_under">
-                                    <div class="flx_main_icon">
-                                        <i class="fa-solid fa-heart"></i>
-                                        <i class="fa-regular fa-eye"></i>
-                                        <i class="fa-solid fa-bag-shopping"></i>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="txt_under_bottom">
-                            <h2>Full Sleeve Long Dress</h2>
-                            <p>$21.00 – $31.00</p>
-                        </div>
-                    </div>
-
-                </div>
+                @endforeach
             </div>
+
         </div>
     </section>
+
+
     <section class="special_offer_sec">
         <div class="container">
             <div class="row">
@@ -492,7 +271,7 @@
                                 <p>Lorem ipsum dolor sit amet, eu pro summo time recteque, euismod adversarium ne usu.
                                     Vel in numquam democritum.</p>
                                 <div class="btn_home_banner">
-                                    <a href="#">Shop Now</a>
+                                    <a href="{{route('trendora.shop')}}">Shop Now</a>
                                 </div>
                             </div>
                         </div>
@@ -512,7 +291,7 @@
                                             <div class="contnt_fll">
                                                 <h3>Min 40% off <br>On Stylish Kurti</h3>
                                                 <div class="btn_flx_special">
-                                                    <a href="#">Shop Now</a>
+                                                    <a href="{{route('trendora.shop')}}">Shop Now</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -531,7 +310,7 @@
                                             <div class="contnt_fll">
                                                 <h3>Min 40% off <br>On Stylish Kurti</h3>
                                                 <div class="btn_flx_special">
-                                                    <a href="#">Shop Now</a>
+                                                    <a href="{{route('trendora.shop')}}">Shop Now</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -550,7 +329,7 @@
                                             <div class="contnt_fll">
                                                 <h3>Min 40% off <br>On Stylish Kurti</h3>
                                                 <div class="btn_flx_special">
-                                                    <a href="#">Shop Now</a>
+                                                    <a href="{{route('trendora.shop')}}">Shop Now</a>
                                                 </div>
                                             </div>
                                         </div>

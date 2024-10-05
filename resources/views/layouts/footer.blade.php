@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-12">
                     <div class="logo">
-                        <a href="#">Tendora</a>
+                        <a href="{{route('trendora')}}">Tendora</a>
                     </div>
                     <div class="cntnt_footer">
                         <p>121 King St, Melbourne VIC 3000, Australia</p>
@@ -29,11 +29,11 @@
                     <div class="privacy_policy_foot">
                         <h2>Information</h2>
                         <ul>
-                            <li> <a href="about-us.html">About us</a></li>
+                            <li> <a href="{{route('trendora.about_us')}}">About us</a></li>
                             <li><a href="#">Size Guide</a></li>
                             <li> <a href="#">Gift Card</a></li>
                             <li> <a href="#">FAQs</a></li>
-                            <li> <a href="#">Contact Us</a></li>
+                            <li> <a href="{{route('trendora.contact_us')}}">Contact Us</a></li>
                         </ul>
                     </div>
                 </div>

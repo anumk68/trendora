@@ -1,4 +1,234 @@
 @extends('layouts.app')
+<style>
+    /* -------------------------caraousel-------------------------- */
+    /*
+    *,
+    *::after,
+    *::before {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Jost", sans-serif;
+        list-style: none;
+    } */
+    /*
+    :root {
+        --items: 5;
+        --gap: 0.75rem;
+
+        --border-xl: 20px;
+        --border-m: 8px;
+        --border-s: 6px;
+
+        --accent-color: hsl(198, 86%, 53%);
+        --fill-primary: hsl(204, 3%, 47%);
+        --fill-active: hsl(204, 23%, 20%);
+        --fill-disabled: hsl(204, 9%, 85%);
+    } */
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    .small_img img {
+        height: 100%;
+        width: 100%;
+        max-width: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .image-thumbnail-carousel {
+        padding: 1rem;
+        width: clamp(360px, 90%, 830px);
+        display: flex;
+        flex-flow: column;
+        gap: 1rem;
+        position: relative;
+    }
+
+
+    .image-display {
+        border-radius: var(--border-xl);
+        /* overflow: hidden; */
+        /* min-height: 30vmin; */
+        /* height: 100%; */
+        aspect-ratio: 16 / 9;
+        box-shadow: 0 0.375em 0.67em #0003, 0 0.5em 1.3em #0002;
+    }
+
+    .screen {
+        block-size: 100%;
+        display: flex;
+        background-image: linear-gradient(12deg, #aaa, #eee);
+        position: relative;
+        user-select: none;
+    }
+
+    .thumbnail-carousel {
+        display: flex;
+        gap: var(--gap);
+        block-size: 100%;
+    }
+
+    .carousel__btn {
+        flex: 1 0 max(44px, 5.834%);
+        background: #0000;
+        border: 1px solid #0000;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+    }
+
+    .arrow-icon {
+        margin-inline: auto;
+        outline: none;
+        border: 0;
+        scale: 1;
+        display: inline grid;
+        width: max(80%, 1.5rem);
+        height: max(80%, 1.5rem);
+        fill: var(--fill-primary);
+    }
+
+    .carousel__btn:hover .arrow-icon {
+        fill: var(--fill-active);
+    }
+
+    .carousel__btn:disabled {
+        opacity: 0.1;
+        pointer-events: none;
+    }
+
+    .carousel__slider {
+        user-select: none;
+        flex-grow: 999;
+        list-style: none;
+        display: flex;
+        gap: var(--gap);
+        padding: 0.5rem;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+    }
+
+    .carousel__slider::-webkit-scrollbar {
+        display: none;
+    }
+
+    .carousel__slide {
+        cursor: pointer;
+        border-radius: var(--border-m);
+        overflow: hidden;
+        scroll-snap-align: center;
+        flex: 1 0 calc((100% / var(--items)) - 10px);
+    }
+
+    .active.carousel__slide {
+        outline: 0.125em solid var(--accent-color);
+        outline-offset: -0.37em;
+    }
+
+    @media (max-width: 680px) {
+        .image-thumbnail-carousel {
+            width: 90vw;
+        }
+
+        .active.carousel__slide {
+            background-color: var(--fill-active);
+            outline-offset: 3px;
+        }
+
+        .carousel__btn {
+            flex-grow: 0;
+        }
+
+        .thumbnail-carousel {
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel__slider {
+            max-width: fit-content;
+            align-items: center;
+            gap: 1em;
+        }
+
+        .carousel__slide {
+            flex: none;
+            aspect-ratio: 1;
+            block-size: 0.625rem;
+            border-radius: 50%;
+            background-color: var(--fill-primary);
+        }
+
+        .thumbnail {
+            opacity: 0;
+            display: none;
+            aspect-ratio: 16 / 9;
+            block-size: 8vw;
+            position: absolute;
+            border-radius: var(--border-s);
+            overflow: hidden;
+            z-index: 99;
+            will-change: transform, opacity;
+            transition: opacity 150ms ease-out;
+            transform-origin: bottom;
+            translate: -50%;
+            bottom: 20%;
+        }
+
+        .carousel__slide:not(.active):hover .thumbnail {
+            opacity: 1;
+            display: block;
+            animation: show 250ms ease-out forwards;
+            box-shadow: 0 0.375em 0.67em #0003, 0 0.5em 1.3em #0002;
+        }
+
+        @keyframes show {
+            from {
+                opacity: 0;
+                transform: scale(0);
+            }
+
+            to {
+                display: block;
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    }
+
+
+    /* -------------------------------------2nd section----------------------------------- */
+    /* .sizes {
+        display: flex;
+        gap: 5px;
+        padding: 12px 0;
+        margin-bottom: 20px;
+    }
+
+
+
+    .sizes input[type="radio"] {
+        display: none;
+    }
+
+    .sizes label {
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 4px;
+        user-select: none;
+    }
+
+    .sizes input[type="radio"]:checked+label {
+        border-color: black;
+        font-weight: bold;
+    } */
+</style>
 @section('content')
 <section class="shop-sec-main pb-0">
         <div class="container">
@@ -19,49 +249,25 @@
                             <ul class="carousel__slider">
                                 <li class="carousel__slide">
                                     <div class="thumbnail small_img">
-                                        <img loading="lazy" src="img/summer_demo_2.jpg" alt="">
+                                        <img loading="lazy" src="{{ asset('front_assets/img/summer_demo_2.jpg') }}" alt="">
                                     </div>
                                 </li>
                                 <li class="carousel__slide">
                                     <div class="thumbnail small_img">
-                                        <img loading="lazy" src="img/summer_demo_33.jpg" alt="">
+                                        <img loading="lazy" src="{{ asset('front_assets/img/summer_demo_33.jpg') }}" alt="">
                                     </div>
                                 </li>
                                 <li class="carousel__slide small_img">
                                     <div class="thumbnail">
-                                        <img loading="lazy" src="img/summer_demo_4.jpg" alt="">
+                                        <img loading="lazy" src="{{ asset('front_assets/img/summer_demo_4.jpg') }}" alt="">
                                     </div>
                                 </li>
                                 <li class="carousel__slide small_img">
                                     <div class="thumbnail">
-                                        <img loading="lazy" src="img/summer_demo_55.jpg" alt="">
+                                        <img loading="lazy" src="{{ asset('front_assets/img/summer_demo_55.jpg') }}" alt="">
                                     </div>
                                 </li>
-                                <!-- <li class="carousel__slide">
-                                    <div class="thumbnail">
-                                        <img loading="lazy" src="https://picsum.photos/800/455" alt="">
-                                    </div>
-                                </li>
-                                <li class="carousel__slide">
-                                    <div class="thumbnail">
-                                        <img loading="lazy" src="https://picsum.photos/800/456" alt="">
-                                    </div>
-                                </li>
-                                <li class="carousel__slide">
-                                    <div class="thumbnail">
-                                        <img loading="lazy" src="https://picsum.photos/800/457" alt="">
-                                    </div>
-                                </li>
-                                <li class="carousel__slide">
-                                    <div class="thumbnail">
-                                        <img loading="lazy" src="https://picsum.photos/800/458" alt="">
-                                    </div>
-                                </li>
-                                <li class="carousel__slide">
-                                    <div class="thumbnail">
-                                        <img loading="lazy" src="https://picsum.photos/800/459" alt="">
-                                    </div>
-                                </li> -->
+
                             </ul>
                             <button type="button" class="carousel__btn next" aria-label="Next slide">
                                 <svg width="16" height="16" fill="currentColor" class="arrow-icon arrow-right-circle"
@@ -213,7 +419,7 @@
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-12 col-sm-12">
-                            <img src="img/summer_demo_66.jpg" alt="image-1" width="280" height="350">
+                            <img src="{{ asset('front_assets/img/summer_demo_66.jpg')}}" alt="image-1" width="280" height="350">
                         </div>
                     </div>
 
@@ -251,7 +457,7 @@
                     <h2 class="space_under_head">2 reviews for Western Dress With Jacket</h2>
                     <div class="reviews_main review_margin">
                         <div class="reviewimg">
-                            <img src="img/bab94b4387d9ff389b0edeef12c9bf20.jpeg" alt="image-reviews"
+                            <img src="{{ asset('front_assets/img/bab94b4387d9ff389b0edeef12c9bf20.jpeg') }}" alt="image-reviews"
                                 class="review_img1">
                         </div>
                         <div class="reviews_star">
@@ -268,7 +474,7 @@
 
                     <div class="reviews_main">
                         <div class="reviewimg">
-                            <img src="img/bab94b4387d9ff389b0edeef12c9bf20.jpeg" alt="image-reviews"
+                            <img src="{{ asset('front_assets/img/bab94b4387d9ff389b0edeef12c9bf20.jpeg') }}" alt="image-reviews"
                                 class="review_img1">
                         </div>
                         <div class="reviews_star">
@@ -310,9 +516,9 @@
 
                                 <div class="box">
 
-                                    <img class="img1" src="img/summer_demo_1.jpg" class="img-fluid" alt="">
+                                    <img class="img1" src="{{ asset('front_assets/img/summer_demo_1.jpg') }}" class="img-fluid" alt="">
 
-                                    <img class="hover_img" src="img/summer_demo_2.jpg" class="img-fluid" alt="">
+                                    <img class="hover_img" src="{{ asset('front_assets/img/summer_demo_2.jpg') }}" class="img-fluid" alt="">
 
                                 </div>
 
@@ -376,9 +582,9 @@
 
                                 <div class="box">
 
-                                    <img class="img1" src="img/summer_demo_3.jpg" class="img-fluid" alt="">
+                                    <img class="img1" src="{{ asset('front_assets/img/summer_demo_3.jpg') }}" class="img-fluid" alt="">
 
-                                    <img class="hover_img" src="img/summer_demo_33.jpg" class="img-fluid" alt="">
+                                    <img class="hover_img" src="{{ asset('front_assets/img/summer_demo_33.jpg') }}" class="img-fluid" alt="">
 
                                 </div>
 
@@ -438,9 +644,9 @@
 
                                 <div class="box">
 
-                                    <img class="img1" src="img/summer_demo_4.jpg" class="img-fluid" alt="">
+                                    <img class="img1" src="{{ asset('front_assets/img/summer_demo_4.jpg') }}" class="img-fluid" alt="">
 
-                                    <img class="hover_img" src="img/summer_demo_44.jpg" class="img-fluid" alt="">
+                                    <img class="hover_img" src="{{ asset('front_assets/img/summer_demo_44.jpg') }}" class="img-fluid" alt="">
 
                                 </div>
 
@@ -492,9 +698,9 @@
 
                                 <div class="box">
 
-                                    <img class="img1" src="img/summer_demo_5.jpg" class="img-fluid" alt="">
+                                    <img class="img1" src="{{ asset('front_assets/img/summer_demo_5.jpg') }}" class="img-fluid" alt="">
 
-                                    <img class="hover_img" src="img/summer_demo_55.jpg" class="img-fluid" alt="">
+                                    <img class="hover_img" src="{{ asset('front_assets/img/summer_demo_55.jpg') }}" class="img-fluid" alt="">
 
                                 </div>
 
@@ -537,4 +743,151 @@
             </div>
         </div>
     </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+    integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<!--owl.carousel  -->
+
+
+
+<script>
+    const sizeButtons = document.querySelectorAll('.view-product-popup-select-size .size-btn');
+    const selectedSizeElement = document.getElementById('selected-size');
+
+    sizeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove 'active' class from all buttons
+            sizeButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Add 'active' class to the clicked button
+            button.classList.add('active');
+
+            // Update the displayed selected size
+            const selectedSize = button.getAttribute('data-size');
+            selectedSizeElement.textContent = selectedSize;
+        });
+    });
+
+</script>
+
+<script src="js/main.js"></script>
+
+<script>
+    const Carousel = (() => {
+        const getActiveSlide = () =>
+            document.querySelector(".carousel__slide.active");
+        const getFirstSlide = () =>
+            document.querySelector(".carousel__slider").firstElementChild;
+        const getLastSlide = () =>
+            document.querySelector(".carousel__slider").lastElementChild;
+
+        const getSiblingSlide = (slide, direction) =>
+            direction === "prev"
+                ? slide.previousElementSibling
+                : slide.nextElementSibling;
+
+        const getNewActiveSlide = (key, activeSlide) => {
+            const actions = {
+                Home: getFirstSlide,
+                End: getLastSlide,
+                ArrowLeft: () => getSiblingSlide(activeSlide, "prev"),
+                ArrowRight: () => getSiblingSlide(activeSlide, "next")
+            };
+            return actions[key]?.() || null;
+        };
+
+        const updateScreen = (activeSlide) => {
+            const carouselScreen = document.querySelector(".image-display .screen");
+            const img = activeSlide.querySelector("img").cloneNode(true);
+            carouselScreen.innerHTML = "";
+            carouselScreen.appendChild(img);
+        };
+
+        const scrollToActiveSlide = (activeSlide) => {
+            const carouselSlider = document.querySelector(".carousel__slider");
+            const { offsetLeft, offsetWidth } = activeSlide;
+            const { clientWidth } = carouselSlider;
+
+            carouselSlider.scrollTo({
+                left: offsetLeft - clientWidth / 2 + offsetWidth / 2,
+                behavior: "smooth"
+            });
+        };
+
+        const updateActiveSlideClass = (activeSlide) => {
+            document
+                .querySelectorAll(".carousel__slide.active")
+                .forEach((slide) => slide.classList.remove("active"));
+            activeSlide.classList.add("active");
+        };
+
+        const updateCarousel = (activeSlide) => {
+            updateActiveSlideClass(activeSlide);
+            updateScreen(activeSlide);
+            scrollToActiveSlide(activeSlide);
+            updateButtonStates(activeSlide);
+        };
+
+        const updateButtonStates = (activeSlide) => {
+            const prevButton = document.querySelector(".carousel__btn.prev");
+            const nextButton = document.querySelector(".carousel__btn.next");
+
+            prevButton.disabled = !getSiblingSlide(activeSlide, "prev");
+            nextButton.disabled = !getSiblingSlide(activeSlide, "next");
+        };
+
+        const handleKeydown = (e) => {
+            if (!e.target.closest(".carousel__slider")) return;
+            const activeSlide = getActiveSlide();
+            const newActiveSlide = getNewActiveSlide(e.key, activeSlide);
+
+            if (newActiveSlide) {
+                e.preventDefault();
+                updateCarousel(newActiveSlide);
+            }
+        };
+
+        const handleButtonClick = (e) => {
+            const activeSlide = getActiveSlide();
+            const newActiveSlide = getSiblingSlide(
+                activeSlide,
+                e.currentTarget.classList.contains("prev") ? "prev" : "next"
+            );
+
+            if (newActiveSlide) {
+                updateCarousel(newActiveSlide);
+            }
+        };
+
+        const handleCarouselClick = (e) => {
+            const clickedSlide = e.target.closest(".carousel__slide");
+            if (clickedSlide) {
+                updateCarousel(clickedSlide);
+            }
+        };
+
+        const initCarousel = () => {
+            const carouselSlider = document.querySelector(".carousel__slider");
+            const prevButton = document.querySelector(".carousel__btn.prev");
+            const nextButton = document.querySelector(".carousel__btn.next");
+
+            updateCarousel(getFirstSlide());
+
+            document.addEventListener("keydown", handleKeydown);
+            prevButton.addEventListener("click", handleButtonClick);
+            nextButton.addEventListener("click", handleButtonClick);
+            carouselSlider.addEventListener("click", handleCarouselClick);
+        };
+
+        initCarousel();
+    })();
+
+</script>
+
     @endsection

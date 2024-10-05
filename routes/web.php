@@ -111,22 +111,17 @@ Route::post('password/reset', [CustomPasswordResetController::class, 'reset'])->
 
 
 
-
-
-
-
-
-
-
-
-
 //frontend routes
 
 Route::get('/trendora', [FrontendController::class, 'front_index'])->name('trendora');
 Route::get('/trendora/about', [FrontendController::class, 'front_about'])->name('trendora.about');
 Route::get('/trendora/shop', [FrontendController::class, 'front_shop'])->name('trendora.shop');
 Route::get('/trendora/cart/{id}', [FrontendController::class, 'front_cart'])->name('trendora.cart');
-Route::get('/trendora/product_details', [FrontendController::class, 'product_details'])->name('trendora.product_details');
+Route::get('/trendora/product_details/{id}', [FrontendController::class, 'product_details'])->name('trendora.product_details');
+Route::get('/trendora/our_history', [FrontendController::class, 'our_history'])->name('trendora.our_history');
+Route::get('/trendora/about_us', [FrontendController::class, 'about_us'])->name('trendora.about_us');
+Route::get('/trendora/contact_us', [FrontendController::class, 'contact_us'])->name('trendora.contact_us');
+
 
 
 
