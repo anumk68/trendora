@@ -1,6 +1,6 @@
 
 
- <footer class="py_8">
+ <footer class="py_8" style="background-color: rgb(231, 228, 228);">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-12">
@@ -33,7 +33,7 @@
                             <li><a href="#">Size Guide</a></li>
                             <li> <a href="#">Gift Card</a></li>
                             <li> <a href="#">FAQs</a></li>
-                            <li> <a href="{{route('trendora.contact_us')}}">Contact Us</a></li>
+                            <li> <a href="{{route('trendora.contact')}}">Contact Us</a></li>
                         </ul>
                     </div>
                 </div>

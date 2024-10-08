@@ -9,13 +9,13 @@ class FrontendController extends BaseController
 {
     //frontend index page
     public function front_index(Request $request){
-        $data = Category::where('is_parent', null)->orWhere('status', 'active')->get();
+        $categories = Category::where('is_parent', null)->orWhere('status', 'active')->take(5)->get();
 
         $product = Product::filter($request)
             ->with(['galleries'])
             ->where('status', 'active')
             ->get();
-        return view('home', compact('data', 'product'));
+        return view('home', compact('categories', 'product'));
     }
 
     //about page function
@@ -72,7 +72,13 @@ class FrontendController extends BaseController
 
         //contact_us page route
         public function contact_us(){
-            view('contact_us');
+
+           return view('contact_us');
         }
 
+         //wishlist page route
+         public function wishlist(){
+
+            return view('wishlist');
+         }
 }

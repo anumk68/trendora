@@ -55,23 +55,23 @@ class ProductController extends Controller
 {
 
 
-$request->validate([
-    'title' => 'required',
-    'description' => 'nullable',
-    'photo' => 'array',
-    'photo.*' => 'image',
-    'video' => 'nullable',
-    'video_thumbnail' => 'nullable',
-    'sku' => 'required',
-    'stock' => 'required',
-    'price' => 'nullable',
-    'discount' => 'nullable|numeric',
-    'size' => 'string|nullable',
-    'height' => 'nullable|numeric',
-    'width' => 'nullable|numeric',
-    'cat_id' => 'required|array',
-    'cat_id.*' => 'exists:categories,id',
-]);
+        $request->validate([
+            'title' => 'required',
+            'description' => 'nullable',
+            'photo' => 'array',
+            'photo.*' => 'image',
+            'video' => 'nullable',
+            'video_thumbnail' => 'nullable',
+            'sku' => 'required',
+            'stock' => 'required',
+            'price' => 'nullable',
+            'discount' => 'nullable|numeric',
+            'size' => 'string|nullable',
+            'height' => 'nullable|numeric',
+            'width' => 'nullable|numeric',
+            'cat_id' => 'required|array',
+            'cat_id.*' => 'exists:categories,id',
+        ]);
 
     $product = Product::findOrFail($id);
     $data = $request->all();
@@ -252,9 +252,7 @@ public function removeImage($id)
         }
 
         $product->save();
-
-
-        return redirect()->route('product.list')-with('success', 'Product added successfully');
+        return redirect()->route('product.list')->with('success', 'Product added successfully');
     }
 
 

@@ -68,7 +68,7 @@
 
         <li class="menu-label">Pages</li>
 
-        @if(auth()->check() && (auth()->user()->role == 'admin' || auth()->user()->role == 'merchant'))
+        @if(auth()->check() && (auth()->user()->role == 'admin'))
             <li>
                 <a href="javascript:void(0);" class="has-arrow">
                     <div class="parent-icon"><i class="bi bi-bag-check"></i></div>

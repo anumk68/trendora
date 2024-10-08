@@ -16,6 +16,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\CustomPasswordResetController;
+use App\Http\Controllers\ContactController;
 
 
 
@@ -30,7 +31,7 @@ Route::get('/register', function () {
 Route::get('login', [LoginController::class, 'login'])->name('login');
 Route::post('register/store', [LoginController::class, 'store'])->name('register.store');
 
-
+Route::post('/auth/handle', [LoginController::class, 'handleAuth'])->name('auth.handle');
 
 Route::middleware(['admin'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'dashboard_index'])->name('dashboard');
@@ -116,11 +117,13 @@ Route::post('password/reset', [CustomPasswordResetController::class, 'reset'])->
 Route::get('/trendora', [FrontendController::class, 'front_index'])->name('trendora');
 Route::get('/trendora/about', [FrontendController::class, 'front_about'])->name('trendora.about');
 Route::get('/trendora/shop', [FrontendController::class, 'front_shop'])->name('trendora.shop');
-Route::get('/trendora/cart/{id}', [FrontendController::class, 'front_cart'])->name('trendora.cart');
+Route::get('/trendora/cart/{id}', [FrontendController::class, 'front_cart'])->name('trendora.front_cart');
 Route::get('/trendora/product_details/{id}', [FrontendController::class, 'product_details'])->name('trendora.product_details');
 Route::get('/trendora/our_history', [FrontendController::class, 'our_history'])->name('trendora.our_history');
 Route::get('/trendora/about_us', [FrontendController::class, 'about_us'])->name('trendora.about_us');
-Route::get('/trendora/contact_us', [FrontendController::class, 'contact_us'])->name('trendora.contact_us');
+Route::get('/trendora/contact_us', [FrontendController::class, 'contact_us'])->name('trendora.contact');
+Route::get('/trendora/wishlist', [FrontendController::class, 'wishlist'])->name('trendora.wishlist');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 
 

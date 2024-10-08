@@ -44,40 +44,32 @@ class LoginController extends Controller
         $request->validate([
             'name' => 'required|string|max:250',
             'email' => 'required|email|max:250|unique:users',
-            'password' => 'required|min:6'
+            'password' => 'required',
+            'user_type' => 'required|in:admin,merchant',
         ]);
 
-        $newUser                     = new User;
-        $newUser->name               = $request->name.' '.$request->last_name;
-        //$newUser->last_name          = $request->last_name;
-        $newUser->email              = $request->email;
-        //$newUser->phone              = $request->phone;
-        $newUser->password           = Hash::make($request->password);
+        $newUser = new User;
+        $newUser->name = $request->name;
+        $newUser->email = $request->email;
+        $newUser->password = Hash::make($request->password);
+        $newUser->role = $request->user_type;
 
         $newUser->save();
 
-        // $newUser = User::create([
-        //     'first_name' => $request->name,
-        //     'last_name' => $request->last_name,
-        //     'email' => $request->email,
-        //     'phone' => $request->phone,
-        //     'password' => Hash::make($request->password)
-        // ]);
-
         $credentials = $request->only('email', 'password');
-
         Auth::attempt($credentials);
         $request->session()->regenerate();
 
-        if($newUser->user_type == 0){
-            return redirect()->route('home')
-            ->withSuccess('You have successfully registered & logged in!');
-        } else {
-            return redirect()->route('dashboard');
-        }
 
-        // return redirect()->route('dashboard')->withSuccess('You have successfully registered & logged in!');
+        if ($newUser->role == 'admin' || $newUser->role == 'merchant'  ) {
+            return redirect()->route('login')
+                ->withSuccess('You have successfully registered Pleace login');
+        } else {
+            return redirect()->back()
+                ->withSuccess('Something went wrong pleace try again');
+        }
     }
+
 
     /**
      * Display a login form.
@@ -202,7 +194,50 @@ class LoginController extends Controller
         return redirect('/dashboard');
     }
 
+//handle user register and login feature
+public function handleAuth(Request $request)
+{
+    $action = $request->input('action');
 
+    if ($action == 'login') {
+
+        $request->validate([
+            'name' => 'required|string',
+            'password' => 'required|string',
+            'remember' => 'boolean',
+        ]);
+
+
+        $credentials = $request->only('name', 'password');
+
+        if (Auth::attempt($credentials, $request->remember)) {
+            $request->session()->regenerate();
+            return redirect()->route('home')->withSuccess('You are logged in!');
+        }
+
+        return back()->withErrors(['name' => 'Invalid credentials.']);
+
+    } elseif ($action == 'register') {
+
+        $request->validate([
+            'register_username' => 'required',
+            'email' => 'required',
+            'register_password' => 'required',
+        ]);
+    ;
+
+        User::create([
+            'name' => $request->input('register_username'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('register_password')),
+            'role' => 'user',
+        ]);
+
+        return redirect()->route('trendora')->withSuccess('Registration successful! You can now log in.');
+    }
+
+    return back()->withErrors(['action' => 'Invalid action.']);
+}
 
 
 }
